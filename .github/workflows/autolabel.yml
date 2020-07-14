@@ -1,13 +1,13 @@
-name: Autolabel
+name: approve_and_label
 on: 
   pull_request:
     types: [opened, reopened]
     
 
 jobs:
-  autolabel:
+  approve_and_label:
     runs-on: ubuntu-latest
-    name: autolabel
+    name: Approve and label
     if: |
       github.actor == 'dependabot[bot]' &&
       github.event_name == 'pull_request' &&
@@ -19,7 +19,14 @@ jobs:
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.PRIVATE_KEY }}
-      - name: 'Label with autosquash'
+      - name: Approve pull request
+        if: github.actor == 'dependabot[bot]'	
+        uses: andrewmusgrave/automatic-pull-request-review@0.0.2	
+        with:	
+          repo-token: '${{ steps.generate_token.outputs.token }}'	
+          event: APPROVE	
+          body: 'Thank you dependabot 🎊'
+      - name: 'Label with "autosquash"'
         env: 
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
         uses: actions/github-script@v2
