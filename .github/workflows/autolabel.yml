@@ -19,23 +19,16 @@ jobs:
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.PRIVATE_KEY }}
-      - name: Approve pull request
-        if: github.actor == 'dependabot[bot]'
-        uses: andrewmusgrave/automatic-pull-request-review@0.0.2
-        with:
-          repo-token: '${{ steps.generate_token.outputs.token }}'
-          event: APPROVE
-          body: 'Thank you dependabot 🎊'
-      - name: '@dependabot merge'
+      - name: 'Label with autosquash'
         env: 
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
         uses: actions/github-script@v2
         with:
           github-token: '${{ steps.generate_token.outputs.token }}'
           script: |
-            await github.issues.createComment({
+            await github.issues.addLabels({
               owner: context.payload.repository.owner.login,
               repo: context.payload.repository.name,
               issue_number: context.payload.pull_request.number,
-              body: '@dependabot merge'
+              labels: 'autosquash'
             })
