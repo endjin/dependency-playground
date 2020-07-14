@@ -30,6 +30,5 @@ jobs:
               owner: context.payload.repository.owner.login,
               repo: context.payload.repository.name,
               issue_number: context.payload.pull_request.number,
-              labels: 
-              - 'autosquash'
+              labels: ['autosquash']
             })
