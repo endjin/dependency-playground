@@ -17,6 +17,7 @@
     <PackageReference Include="Marain.Claims.Abstractions" Version="0.1.0" />
     <PackageReference Include="Marain.Claims.Client" Version="0.1.0" />
     <PackageReference Include="Marain.Claims.Hosting.AspNetCore" Version="0.1.0" />
+    <PackageReference Include="Marain.Claims.OpenApi.AspNetCore" Version="0.1.0" />
     <PackageReference Include="Marain.Claims.OpenApi.Service" Version="0.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
   </ItemGroup>
