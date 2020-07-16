@@ -5,8 +5,8 @@ try {
     const prTitle = core.getInput('pr_title');
     console.log(`PR title is: '${prTitle}'`);
 
-    let result = parseTitle(prTitle);
-    result.updateType = calculateUpdateType(result.versionFrom, result.versionTo);
+    let result = functions.parseTitle(prTitle);
+    result.updateType = functions.calculateUpdateType(result.versionFrom, result.versionTo);
 
     console.log(result);
 
