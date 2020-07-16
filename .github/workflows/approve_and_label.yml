@@ -28,11 +28,11 @@ jobs:
     if: |
         github.actor == 'dependabot[bot]' &&
         github.event_name == 'pull_request' &&
-        (startsWith(needs.parse_dependabot_pr.dependency_name, 'Endjin') ||
-        startsWith(needs.parse_dependabot_pr.dependency_name, 'Corvus') ||
-        startsWith(needs.parse_dependabot_pr.dependency_name, 'Menes') ||
-        startsWith(needs.parse_dependabot_pr.dependency_name, 'Marain')) &&
-        (needs.parse_dependabot_pr.update_type == 'minor' || needs.parse_dependabot_pr.update_type == 'patch')
+        (startsWith(needs.parse_dependabot_pr.outputs.dependency_name, 'Endjin') ||
+        startsWith(needs.parse_dependabot_pr.outputs.dependency_name, 'Corvus') ||
+        startsWith(needs.parse_dependabot_pr.outputs.dependency_name, 'Menes') ||
+        startsWith(needs.parse_dependabot_pr.outputs.dependency_name, 'Marain')) &&
+        (needs.parse_dependabot_pr.outputs.update_type == 'minor' || needs.parse_dependabot_pr.outputs.update_type == 'patch')
     steps:
       - name: Generate token
         id: generate_token
