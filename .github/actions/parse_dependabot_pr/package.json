@@ -9,6 +9,7 @@
   "author": "endjin",
   "license": "ISC",
   "dependencies": {
+    "@actions/core": "^1.2.4",
     "semver": "^7.3.2"
   },
   "devDependencies": {
