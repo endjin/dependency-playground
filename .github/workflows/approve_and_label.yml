@@ -15,6 +15,7 @@ jobs:
       github.actor == 'dependabot[bot]' &&
       github.event_name == 'pull_request'
     steps:
+      - uses: actions/checkout@v2
       - name: Parse Dependabot PR title
         id: parse_dependabot_pr
         uses: ./.github/actions/parse_dependabot_pr
