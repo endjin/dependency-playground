@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Marain.Claims.Client.OpenApi" Version="0.4.0" />
     <PackageReference Include="Marain.Operations.OpenApi" Version="0.7.0" />
+    <PackageReference Include="Marain.Operations.StatusClient" Version="0.7.0" />
   </ItemGroup>
 
 </Project>
