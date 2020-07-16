@@ -1,0 +1,17 @@
+{
+  "name": "parse_dependabot_pr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "endjin",
+  "license": "ISC",
+  "dependencies": {
+    "semver": "^7.3.2"
+  },
+  "devDependencies": {
+    "jest": "^26.1.0"
+  }
+}

@@ -1,0 +1,20 @@
+name: 'parse_dependabot_pr'
+description: 'Parses a Dependabot PR title.'
+inputs:
+  pr_title:
+    description: 'The title of the PR.'
+    required: true
+outputs:
+  dependency_name:
+    description: 'The name of the dependency.'
+  version_from:
+    description: 'The version of the dependency being updated from.'
+  version_to:
+    description: 'The version of the dependency being updated to.'
+  folder:
+    description: 'The folder where the dependency is updated.'
+  update_type:
+    description: 'The type of update (major, minor, patch).'
+runs:
+  using: 'node12'
+  main: 'index.js'
