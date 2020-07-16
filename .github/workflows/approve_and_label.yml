@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Parse Dependabot PR title
     outputs:
-      dependencyName: ${{ steps.parse_dependabot_pr.outputs.dependencyName }}
-      updateType: ${{ steps.parse_dependabot_pr.outputs.updateType }}
+      dependency_name: ${{ steps.parse_dependabot_pr.outputs.dependency_name }}
+      update_type: ${{ steps.parse_dependabot_pr.outputs.update_type }}
     if: |
       github.actor == 'dependabot[bot]' &&
       github.event_name == 'pull_request'
@@ -28,11 +28,11 @@ jobs:
     if: |
         github.actor == 'dependabot[bot]' &&
         github.event_name == 'pull_request' &&
-        (startsWith(needs.parse_dependabot_pr.dependencyName, 'Endjin') ||
-        startsWith(needs.parse_dependabot_pr.dependencyName, 'Corvus') ||
-        startsWith(needs.parse_dependabot_pr.dependencyName, 'Menes') ||
-        startsWith(needs.parse_dependabot_pr.dependencyName, 'Marain')) &&
-        (needs.parse_dependabot_pr.updateType == 'minor' || needs.parse_dependabot_pr.updateType == 'patch')
+        (startsWith(needs.parse_dependabot_pr.dependency_name, 'Endjin') ||
+        startsWith(needs.parse_dependabot_pr.dependency_name, 'Corvus') ||
+        startsWith(needs.parse_dependabot_pr.dependency_name, 'Menes') ||
+        startsWith(needs.parse_dependabot_pr.dependency_name, 'Marain')) &&
+        (needs.parse_dependabot_pr.update_type == 'minor' || needs.parse_dependabot_pr.update_type == 'patch')
     steps:
       - name: Generate token
         id: generate_token
