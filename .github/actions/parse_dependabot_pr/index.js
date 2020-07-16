@@ -1,4 +1,4 @@
-import "functions.js"
+const functions = require("./functions")
 const core = require('@actions/core');
 
 try {
