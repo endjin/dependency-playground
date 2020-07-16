@@ -10,11 +10,11 @@ try {
 
     console.log(result);
 
-    core.setOutput("dependency_name", dependencyName);
-    core.setOutput("version_from", versionFrom);
-    core.setOutput("version_to", versionTo);
-    core.setOutput("folder", folder);
-    core.setOutput("update_type", updateType);
+    core.setOutput("dependency_name", result.dependencyName);
+    core.setOutput("version_from", result.versionFrom);
+    core.setOutput("version_to", result.versionTo);
+    core.setOutput("folder", result.folder);
+    core.setOutput("update_type", result.updateType);
 } catch (error) {
     core.setFailed(error.message);
 }
