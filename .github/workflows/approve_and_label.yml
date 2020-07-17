@@ -31,7 +31,8 @@ jobs:
         (startsWith(needs.parse_dependabot_pr.outputs.dependency_name, 'Endjin') ||
         startsWith(needs.parse_dependabot_pr.outputs.dependency_name, 'Corvus') ||
         startsWith(needs.parse_dependabot_pr.outputs.dependency_name, 'Menes') ||
-        startsWith(needs.parse_dependabot_pr.outputs.dependency_name, 'Marain')) &&
+        startsWith(needs.parse_dependabot_pr.outputs.dependency_name, 'Marain') ||
+        startsWith(needs.parse_dependabot_pr.outputs.dependency_name, 'dependency-playground')) &&
         (needs.parse_dependabot_pr.outputs.update_type == 'minor' || needs.parse_dependabot_pr.outputs.update_type == 'patch')
     steps:
       - name: Generate token
