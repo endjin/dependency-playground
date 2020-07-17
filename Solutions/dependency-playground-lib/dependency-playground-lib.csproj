@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.dll</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <AssemblyName>dependency-playground-lib</AssemblyName>
+    <RootNamespace>dependency_playground.lib</RootNamespace>
+  </PropertyGroup>
+
+</Project>

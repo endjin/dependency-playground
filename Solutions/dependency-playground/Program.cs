@@ -6,7 +6,7 @@ namespace dependency_playground
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            dependency_playground.lib.Helpers.Message();
         }
     }
 }

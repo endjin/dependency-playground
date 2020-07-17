@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dependency-playground", "dependency-playground.csproj", "{BE3616FC-94A3-4DC8-94FC-5FD83408EAC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dependency-playground-lib", "dependency-playground-lib.csproj", "{872E8D64-00E1-44B1-BC47-4949D59D46DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BE3616FC-94A3-4DC8-94FC-5FD83408EAC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BE3616FC-94A3-4DC8-94FC-5FD83408EAC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BE3616FC-94A3-4DC8-94FC-5FD83408EAC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BE3616FC-94A3-4DC8-94FC-5FD83408EAC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{872E8D64-00E1-44B1-BC47-4949D59D46DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{872E8D64-00E1-44B1-BC47-4949D59D46DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{872E8D64-00E1-44B1-BC47-4949D59D46DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{872E8D64-00E1-44B1-BC47-4949D59D46DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {5E5B6AF0-8CF1-4EB2-96CC-BD0D4F6168FE}
+		SolutionGuid = {E22F4CF8-32EE-489C-B183-F6002D3FE1EE}
 	EndGlobalSection
 EndGlobal

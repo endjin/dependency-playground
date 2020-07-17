@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>dependency_playground</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Corvus.Configuration" Version="0.5.0" />
+    <PackageReference Include="Corvus.ContentHandling" Version="0.16.0" />
+    <PackageReference Include="Corvus.Extensions" Version="1.0.0" />
+    <PackageReference Include="Corvus.Extensions.Newtonsoft.Json" Version="0.9.0" />
+    <PackageReference Include="Corvus.Monitoring.Instrumentation.Abstractions" Version="0.2.0" />
+    <PackageReference Include="Corvus.Retry" Version="0.5.0" />
+    <PackageReference Include="Corvus.Testing.SpecFlow" Version="1.0.0" />
+    <PackageReference Include="dependency-playground-lib" Version="1.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+  </ItemGroup>
+
+</Project>
