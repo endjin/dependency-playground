@@ -23,7 +23,7 @@ jobs:
         with:
           pr_title: ${{ github.event.pull_request.title }}
           package_filter_as_json_array: |
-            ["Endjin","Corvus","Menes","Marain","dependency-playground"]
+            ["Endjin.*","Corvus.*","Menes.*","Marain.*","dependency-playground*"]
   approve_and_label:
     runs-on: ubuntu-latest
     needs: parse_dependabot_pr
