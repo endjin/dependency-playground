@@ -10,7 +10,7 @@ jobs:
     name: Parse Dependabot PR title
     outputs:
       dependency_name: ${{ steps.parse_dependabot_pr.outputs.dependency_name }}
-      is_auto_merge_candidate: ${{ steps.parse_dependabot_pr.outputs.is_matching_package }}
+      is_auto_merge_candidate: ${{ steps.parse_dependabot_pr.outputs.is_interesting_package }}
       update_type: ${{ steps.parse_dependabot_pr.outputs.update_type }}
     if: |
       github.actor == 'dependabot[bot]' &&
