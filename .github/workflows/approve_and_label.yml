@@ -6,7 +6,7 @@ on:
 env:
   # Customise this variable to choose which dependencies can be auto-merged
   AUTO_MERGE_PACKAGE_FILTER: |
-    ["Endjin.*","Corvus.*","Menes.*","Marain.*"]
+    ["Endjin.*","Corvus.*","Menes.*","Marain.*","dependency-playground*"]
 
 jobs:
   evaluate_dependabot_pr:
