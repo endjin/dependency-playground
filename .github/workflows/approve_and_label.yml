@@ -14,6 +14,8 @@ jobs:
     name: Parse Dependabot PR title
     outputs:
       dependency_name: ${{ steps.parse_dependabot_pr.outputs.dependency_name }}
+      version_from: ${{ steps.parse_dependabot_pr.outputs.version_from }}
+      version_to: ${{ steps.parse_dependabot_pr.outputs.version_to }}
       is_auto_merge_candidate: ${{ steps.parse_dependabot_pr.outputs.is_interesting_package }}
       update_type: ${{ steps.parse_dependabot_pr.outputs.update_type }}
     if: |
@@ -65,6 +67,22 @@ jobs:
           repo-token: '${{ steps.generate_token.outputs.token }}'
           event: APPROVE
           body: 'Thank you dependabot 🎊'
+      - name: 'Update PR body'
+        if: |
+          needs.evaluate_dependabot_pr.outputs.is_auto_merge_candidate == 'True' &&
+          (needs.evaluate_dependabot_pr.outputs.update_type == 'minor' || needs.evaluate_dependabot_pr.outputs.update_type == 'patch')
+        env: 
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+        uses: actions/github-script@v2
+        with:
+          github-token: '${{ steps.generate_token.outputs.token }}'
+          script: |
+            await github.pulls.update({
+              owner: context.payload.repository.owner.login,
+              repo: context.payload.repository.name,
+              pull_number: context.payload.pull_request.number,
+              body: 'Bumps '${{needs.evaluate_dependabot_pr.outputs.dependency_name}}' from ${{needs.evaluate_dependabot_pr.outputs.version_from}} to ${{needs.evaluate_dependabot_pr.outputs.version_to}}'
+            })
       - name: 'Label with "autosquash"'
         if: |
           needs.evaluate_dependabot_pr.outputs.is_auto_merge_candidate == 'True' &&
