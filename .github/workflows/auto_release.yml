@@ -7,7 +7,7 @@ jobs:
   check_for_open_prs:
     runs-on: ubuntu-latest
     if: |
-      (github.actor == 'dependabot[bot]' || github.actor == 'nektos/act')
+      (github.actor == 'endjin-bot[bot]' || github.actor == 'nektos/act')
     outputs:
       no_open_prs: ${{ steps.watch_dependabot_prs.outputs.is_complete }}
     steps:
