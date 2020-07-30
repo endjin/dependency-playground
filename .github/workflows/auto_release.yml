@@ -4,11 +4,12 @@ on:
     types: [closed]
 
 jobs:
-  autorelease:
+  check_for_open_prs:
     runs-on: ubuntu-latest
     if: |
-      (github.actor == 'dependabot[bot]' || github.actor == 'nektos/act') &&
-      github.event.pull_request.merged == true
+      (github.actor == 'dependabot[bot]' || github.actor == 'nektos/act')
+    outputs:
+      no_open_prs: ${{ steps.watch_dependabot_prs.outputs.is_complete }}
     steps:
     - id: get_pr_list
       name: Get PRs
@@ -24,6 +25,7 @@ jobs:
           });
           return JSON.stringify(pulls.data.map(p=>p.title))
         result-encoding: string
+
     - name: Display pr_list
       run: |
         echo "pr_list : ${{ steps.get_pr_list.outputs.result }}"
@@ -37,6 +39,30 @@ jobs:
           ["Endjin.*","Corvus.*"]
         max_semver_increment: minor
         verbose_mode: 'False'
-    - name: Display is_complete
-      run: |
-        echo "is_complete : ${{ steps.watch_dependabot_prs.outputs.is_complete }}"
+
+  tag_for_release:
+    runs-on: ubuntu-latest
+    if: jobs.check_for_open_prs.outputs.no_open_prs
+    steps:
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.x'
+
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0.9.2
+      with:
+        versionSpec: '5.2.x'
+    
+    - uses: actions/checkout@v2
+
+    - name: Fetch all history for all tags and branches
+      run: git fetch --prune --unshallow
+
+    - name: Use GitVersion
+      id: gitversion 
+      uses: gittools/actions/gitversion/execute@v0.9.2
+
+    - uses: hole19/git-tag-action@master
+      env:
+        TAG: ${{ steps.gitversion.outputs.semver }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
