@@ -1,0 +1,42 @@
+name: auto_release
+on: 
+  pull_request:
+    types: [closed]
+
+jobs:
+  autorelease:
+    runs-on: ubuntu-latest
+    if: |
+      (github.actor == 'dependabot[bot]' || github.actor == 'nektos/act') &&
+      github.event.pull_request.merged == true
+    steps:
+    - id: get_pr_list
+      name: Get PRs
+      uses: actions/github-script@v2
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const pulls = await github.pulls.list({
+            owner: context.payload.repository.owner.login,
+            repo: context.payload.repository.name,
+            state: 'open',
+            base: 'master'
+          });
+          return JSON.stringify(pulls.data.map(p=>p.title))
+        result-encoding: string
+    - name: Display pr_list
+      run: |
+        echo "pr_list : ${{ steps.get_pr_list.outputs.result }}"
+
+    - id: watch_dependabot_prs
+      name: Watch Dependabot PRs
+      uses: endjin/dependabot-pr-parser/src/dependabot-pr-watcher@5f47a2ef721bbf9b80aa49e5ad39ad56284f2181
+      with:
+        pr_titles: ${{ steps.get_pr_list.outputs.result }}
+        package_wildcard_expressions: |
+          ["Endjin.*","Corvus.*"]
+        max_semver_increment: minor
+        verbose_mode: 'False'
+    - name: Display is_complete
+      run: |
+        echo "is_complete : ${{ steps.watch_dependabot_prs.outputs.is_complete }}"
