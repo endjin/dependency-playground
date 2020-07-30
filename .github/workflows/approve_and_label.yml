@@ -81,7 +81,7 @@ jobs:
               owner: context.payload.repository.owner.login,
               repo: context.payload.repository.name,
               pull_number: context.payload.pull_request.number,
-              body: 'Bumps '${{needs.evaluate_dependabot_pr.outputs.dependency_name}}' from ${{needs.evaluate_dependabot_pr.outputs.version_from}} to ${{needs.evaluate_dependabot_pr.outputs.version_to}}'
+              body: "Bumps '${{needs.evaluate_dependabot_pr.outputs.dependency_name}}' from ${{needs.evaluate_dependabot_pr.outputs.version_from}} to ${{needs.evaluate_dependabot_pr.outputs.version_to}}"
             })
       - name: 'Label with "autosquash"'
         if: |
