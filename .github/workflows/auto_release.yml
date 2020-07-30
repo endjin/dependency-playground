@@ -42,7 +42,8 @@ jobs:
 
   tag_for_release:
     runs-on: ubuntu-latest
-    if: jobs.check_for_open_prs.outputs.no_open_prs
+    needs: check_for_open_prs
+    if: needs.check_for_open_prs.outputs.no_open_prs
     steps:
     - uses: actions/setup-dotnet@v1
       with:
