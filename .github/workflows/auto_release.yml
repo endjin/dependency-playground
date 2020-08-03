@@ -37,7 +37,7 @@ jobs:
 
     - id: watch_dependabot_prs
       name: Watch Dependabot PRs
-      uses: endjin/dependabot-pr-parser/src/dependabot-pr-watcher@5f47a2ef721bbf9b80aa49e5ad39ad56284f2181
+      uses: endjin/pr-autoflow/actions/dependabot-pr-watcher@v3
       with:
         pr_titles: ${{ steps.get_pr_list.outputs.result }}
         package_wildcard_expressions: ${{ env.AUTO_MERGE_PACKAGE_WILDCARD_EXPRESSIONS }}
