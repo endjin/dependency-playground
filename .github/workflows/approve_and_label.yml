@@ -5,7 +5,7 @@ on:
     
 env:
   # Customise this variable to choose which dependencies can be auto-merged
-  AUTO_MERGE_PACKAGE_FILTER: |
+  AUTO_MERGE_PACKAGE_WILDCARD_EXPRESSIONS: |
     ["Endjin.*","Corvus.*","Menes.*","Marain.*","dependency-playground*"]
 
 jobs:
@@ -28,7 +28,7 @@ jobs:
         uses: endjin/pr-autoflow/actions/dependabot-pr-parser@v3
         with:
           pr_title: ${{ github.event.pull_request.title }}
-          package_filter: ${{ env.AUTO_MERGE_PACKAGE_FILTER }}
+          package_wildcard_expressions: ${{ env.AUTO_MERGE_PACKAGE_WILDCARD_EXPRESSIONS }}
       - name: debug
         run: |
           echo "dependency_name : ${{ steps.parse_dependabot_pr.outputs.dependency_name }}"

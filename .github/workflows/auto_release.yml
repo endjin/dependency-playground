@@ -5,7 +5,7 @@ on:
 
 env:
   # Customise this variable to choose which dependencies can be auto-merged
-  AUTO_MERGE_PACKAGE_FILTER: |
+  AUTO_MERGE_PACKAGE_WILDCARD_EXPRESSIONS: |
     ["Endjin.*","Corvus.*","Menes.*","Marain.*","dependency-playground*"]
 
 jobs:
@@ -40,7 +40,7 @@ jobs:
       uses: endjin/dependabot-pr-parser/src/dependabot-pr-watcher@5f47a2ef721bbf9b80aa49e5ad39ad56284f2181
       with:
         pr_titles: ${{ steps.get_pr_list.outputs.result }}
-        package_wildcard_expressions: ${{ env.AUTO_MERGE_PACKAGE_FILTER }}
+        package_wildcard_expressions: ${{ env.AUTO_MERGE_PACKAGE_WILDCARD_EXPRESSIONS }}
         max_semver_increment: minor
         verbose_mode: 'False'
 
