@@ -17,7 +17,7 @@ jobs:
       version_from: ${{ steps.parse_dependabot_pr.outputs.version_from }}
       version_to: ${{ steps.parse_dependabot_pr.outputs.version_to }}
       is_auto_merge_candidate: ${{ steps.parse_dependabot_pr.outputs.is_interesting_package }}
-      update_type: ${{ steps.parse_dependabot_pr.outputs.update_type }}
+      semver_increment: ${{ steps.parse_dependabot_pr.outputs.semver_increment }}
     if: |
       (github.actor == 'dependabot[bot]' || github.actor == 'nektos/act') &&
       github.event_name == 'pull_request'
@@ -33,7 +33,7 @@ jobs:
         run: |
           echo "dependency_name : ${{ steps.parse_dependabot_pr.outputs.dependency_name }}"
           echo "is_interesting_package : ${{ steps.parse_dependabot_pr.outputs.is_interesting_package }}"
-          echo "update_type : ${{ steps.parse_dependabot_pr.outputs.update_type }}"
+          echo "semver_increment : ${{ steps.parse_dependabot_pr.outputs.semver_increment }}"
   approve_and_label:
     runs-on: ubuntu-latest
     needs: evaluate_dependabot_pr
@@ -48,7 +48,7 @@ jobs:
           cat "$GITHUB_EVENT_PATH"
           echo "<------------------------------------------------>"
           echo "dependency_name : ${{needs.evaluate_dependabot_pr.outputs.dependency_name}}"
-          echo "update_type     : ${{needs.evaluate_dependabot_pr.outputs.update_type}}"
+          echo "semver_increment     : ${{needs.evaluate_dependabot_pr.outputs.semver_increment}}"
           echo "auto_merge      : ${{needs.evaluate_dependabot_pr.outputs.is_auto_merge_candidate}}"
           echo "<------------------------------------------------>"
         shell: bash
@@ -61,7 +61,7 @@ jobs:
       - name: Approve pull request
         if: |
           needs.evaluate_dependabot_pr.outputs.is_auto_merge_candidate == 'True' &&
-          (needs.evaluate_dependabot_pr.outputs.update_type == 'minor' || needs.evaluate_dependabot_pr.outputs.update_type == 'patch')
+          (needs.evaluate_dependabot_pr.outputs.semver_increment == 'minor' || needs.evaluate_dependabot_pr.outputs.semver_increment == 'patch')
         uses: andrewmusgrave/automatic-pull-request-review@0.0.2
         with:
           repo-token: '${{ steps.generate_token.outputs.token }}'
@@ -70,7 +70,7 @@ jobs:
       - name: 'Update PR body'
         if: |
           needs.evaluate_dependabot_pr.outputs.is_auto_merge_candidate == 'True' &&
-          (needs.evaluate_dependabot_pr.outputs.update_type == 'minor' || needs.evaluate_dependabot_pr.outputs.update_type == 'patch')
+          (needs.evaluate_dependabot_pr.outputs.semver_increment == 'minor' || needs.evaluate_dependabot_pr.outputs.semver_increment == 'patch')
         env: 
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
         uses: actions/github-script@v2
@@ -86,7 +86,7 @@ jobs:
       - name: 'Label with "autosquash"'
         if: |
           needs.evaluate_dependabot_pr.outputs.is_auto_merge_candidate == 'True' &&
-          (needs.evaluate_dependabot_pr.outputs.update_type == 'minor' || needs.evaluate_dependabot_pr.outputs.update_type == 'patch')
+          (needs.evaluate_dependabot_pr.outputs.semver_increment == 'minor' || needs.evaluate_dependabot_pr.outputs.semver_increment == 'patch')
         env: 
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
         uses: actions/github-script@v2
