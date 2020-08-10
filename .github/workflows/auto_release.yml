@@ -19,20 +19,16 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          try {
-            const label = await github.issues.listLabelsOnIssue({
+            const labels = await github.issues.listLabelsOnIssue({
               owner: context.payload.repository.owner.login,
               repo: context.payload.repository.name,
               issue_number: context.payload.number
             });
-            return true
-          }
-          catch (error){
-            if (error.status == 404) {
-              return false
+            core.info("labels: " + JSON.stringify(labels.data))
+            if ( labels.data.map(l => l.name).includes("no_release") ) {
+              return true
             }
-            throw error
-          }
+            return false
 
   check_for_open_prs:
     runs-on: ubuntu-latest
