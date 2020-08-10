@@ -32,8 +32,9 @@ jobs:
 
   check_for_open_prs:
     runs-on: ubuntu-latest
+    needs: check_for_norelease_label
     if: |
-      needs.check_for_norelease_label.outputs.no_release != 'true'
+      !needs.check_for_norelease_label.outputs.no_release
     outputs:
       no_open_prs: ${{ steps.watch_dependabot_prs.outputs.is_complete }}
     steps:
