@@ -25,7 +25,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Parse Dependabot PR title
         id: parse_dependabot_pr
-        uses: endjin/pr-autoflow/actions/dependabot-pr-parser@v0
+        uses: endjin/pr-autoflow/actions/dependabot-pr-parser@v1
         with:
           pr_title: ${{ github.event.pull_request.title }}
           package_wildcard_expressions: ${{ env.AUTO_MERGE_PACKAGE_WILDCARD_EXPRESSIONS }}
@@ -42,22 +42,22 @@ jobs:
       (github.actor == 'dependabot[bot]' || github.actor == 'nektos/act') &&
       github.event_name == 'pull_request'
     steps:
-      - name: debug
+      - name: Show PR Details
         run: |
-          env
-          cat "$GITHUB_EVENT_PATH"
           echo "<------------------------------------------------>"
           echo "dependency_name : ${{needs.evaluate_dependabot_pr.outputs.dependency_name}}"
           echo "semver_increment     : ${{needs.evaluate_dependabot_pr.outputs.semver_increment}}"
           echo "auto_merge      : ${{needs.evaluate_dependabot_pr.outputs.is_auto_merge_candidate}}"
+          echo "from_version    : ${{needs.evaluate_dependabot_pr.outputs.version_from}}"
+          echo "to_version      : ${{needs.evaluate_dependabot_pr.outputs.version_to}}"
           echo "<------------------------------------------------>"
         shell: bash
       - name: Generate token
         id: generate_token
         uses: tibdex/github-app-token@v1
         with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.PRIVATE_KEY }}
+          app_id: ${{ secrets.ENDJIN_BOT_APP_ID }}
+          private_key: ${{ secrets.ENDJIN_BOT_PRIVATE_KEY }}
       - name: Approve pull request
         if: |
           needs.evaluate_dependabot_pr.outputs.is_auto_merge_candidate == 'True' &&
