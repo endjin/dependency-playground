@@ -12,7 +12,7 @@ jobs:
   check_for_norelease_label:
     runs-on: ubuntu-latest
     outputs:
-      no_release: ${{ steps.check_for_norelease_label.outputs.exists }}
+      no_release: ${{ steps.check_for_norelease_label.outputs.result }}
     steps:
     - id: check_for_norelease_label
       uses: actions/github-script@v2
