@@ -78,6 +78,7 @@ jobs:
                                         map(p=>p.number);
           core.setOutput('is_release_pending', (release_pending_prs.length > 0))
           return JSON.stringify(release_pending_prs)
+        result-encoding: string
     - name: Display release_pending_pr_list
       run: |
         echo "release_pending_pr_list : ${{ steps.get_release_pending_pr_list.outputs.result }}"
@@ -97,6 +98,7 @@ jobs:
         echo "no_open_prs: ${{ steps.watch_dependabot_prs.outputs.is_complete }}"
         echo "pending_release_pr_list: ${{ steps.get_release_pending_pr_list.outputs.result }}"
         echo "ready_to_release : ${{ steps.watch_dependabot_prs.outputs.is_complete == 'True' && steps.get_release_pending_pr_list.outputs.is_release_pending }}"
+
   tag_for_release:
     runs-on: ubuntu-latest
     needs: check_for_open_prs
@@ -144,13 +146,14 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
           core.info('input: ${{ needs.check_for_open_prs.outputs.pending_release_pr_list }}')
-          const pr_list = JSON.parse('${{ needs.check_for_open_prs.outputs.pending_release_pr_list }}')
-          pr_list.forEach(function (i) {
+          const pr_list = JSON.parse('${{ steps.get_release_pending_pr_list.outputs.pending_release_pr_list }}')
+          core.info(`pr_list: ${pr_list}`)
+          for (const i of pr_list) {
             core.info(`Removing label 'release_pending' from issue #${i}`)
             github.issues.removeLabel({
               owner: context.payload.repository.owner.login,
               repo: context.payload.repository.name,
               issue_number: i,
               labels: ['pending_release']
-            })
-          });
+            });
+          }
