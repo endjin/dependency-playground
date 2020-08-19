@@ -73,12 +73,12 @@ jobs:
           const pulls = await github.search.issuesAndPullRequests({
             q: 'is:pr is:merged label:pending_release',
           });
-          core.log(`pulls: ${pulls.data.items}`)
+          core.info(`pulls: ${pulls.data.items}`)
           const repoUrl = `https://api.github.com/repos/${context.payload.repository.owner.login}/${context.payload.repository.name}`
           const release_pending_prs = pulls.data.items.
                                         filter(function (x) { return x.repository_url == repoUrl; }).
                                         map(p=>p.number);
-          core.log(`release_pending_prs: ${release_pending_prs}`)
+          core.info(`release_pending_prs: ${release_pending_prs}`)
           core.setOutput('is_release_pending', (release_pending_prs.length > 0))
           return JSON.stringify(release_pending_prs)
         result-encoding: string
