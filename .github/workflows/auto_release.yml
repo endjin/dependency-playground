@@ -75,7 +75,7 @@ jobs:
           const repoUrl = `https://api.github.com/repos/${context.payload.repository.owner.login}/${context.payload.repository.name}`
           const release_pending_prs = pulls.data.items.
                                         filter(function (x) { return x.repository_url == repoUrl; }).
-                                        map(p=>p.title);
+                                        map(p=>p.number);
           core.setOutput('is_release_pending', (release_pending_prs.length > 0))
           return JSON.stringify(release_pending_prs)
     - name: Display release_pending_pr_list
@@ -146,8 +146,8 @@ jobs:
           core.info('input: ${{ needs.check_for_open_prs.outputs.pending_release_pr_list }}')
           const pr_list = JSON.parse('${{ needs.check_for_open_prs.outputs.pending_release_pr_list }}')
           pr_list.forEach(function (i) {
-            core.info(`Removing label 'release_pending' from issue ${i}`)
-            await github.issues.removeLabel({
+            core.info(`Removing label 'release_pending' from issue #${i}`)
+            github.issues.removeLabel({
               owner: context.payload.repository.owner.login,
               repo: context.payload.repository.name,
               issue_number: i,
