@@ -146,7 +146,7 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
           core.info('input: ${{ needs.check_for_open_prs.outputs.pending_release_pr_list }}')
-          const pr_list = JSON.parse('${{ steps.get_release_pending_pr_list.outputs.pending_release_pr_list }}')
+          const pr_list = JSON.parse('${{ needs.check_for_open_prs.outputs.pending_release_pr_list }}')
           core.info(`pr_list: ${pr_list}`)
           for (const i of pr_list) {
             core.info(`Removing label 'release_pending' from issue #${i}`)
