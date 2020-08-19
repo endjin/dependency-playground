@@ -143,17 +143,17 @@ jobs:
     - id: remove_pending_release_labels
       uses: actions/github-script@v2
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: '${{ steps.generate_token.outputs.token }}'
         script: |
           core.info('input: ${{ needs.check_for_open_prs.outputs.pending_release_pr_list }}')
           const pr_list = JSON.parse('${{ needs.check_for_open_prs.outputs.pending_release_pr_list }}')
           core.info(`pr_list: ${pr_list}`)
           for (const i of pr_list) {
-            core.info(`Removing label 'release_pending' from issue #${i}`)
+            core.info(`Removing label 'pending_release' from issue #${i}`)
             github.issues.removeLabel({
               owner: context.payload.repository.owner.login,
               repo: context.payload.repository.name,
               issue_number: i,
-              labels: ['pending_release']
+              name: 'pending_release'
             });
           }
