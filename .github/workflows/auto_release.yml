@@ -90,6 +90,11 @@ jobs:
         max_semver_increment: minor
         verbose_mode: 'False'
 
+    - name: Display job outputs
+      run: |
+        echo "no_open_prs: ${{ steps.watch_dependabot_prs.outputs.is_complete }}"
+        echo "${{ steps.get_release_pending_pr_list.outputs.result }}"
+        echo "ready_to_release: ${{ steps.watch_dependabot_prs.outputs.is_complete == 'True' && steps.get_release_pending_pr_list.outputs.result.length > 0 }}"
   tag_for_release:
     runs-on: ubuntu-latest
     needs: check_for_open_prs
