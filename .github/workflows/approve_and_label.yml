@@ -15,12 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     name: Parse Dependabot PR title
     outputs:
-      dependency_name: ${{ steps.parse_dependabot_pr.outputs.dependency_name }}
-      version_from: ${{ steps.parse_dependabot_pr.outputs.version_from }}
-      version_to: ${{ steps.parse_dependabot_pr.outputs.version_to }}
+      dependency_name: ${{ steps.parse_dependabot_pr_automerge.outputs.dependency_name }}
+      version_from: ${{ steps.parse_dependabot_pr_automerge.outputs.version_from }}
+      version_to: ${{ steps.parse_dependabot_pr_automerge.outputs.version_to }}
       is_auto_merge_candidate: ${{ steps.parse_dependabot_pr_automerge.outputs.is_interesting_package }}
       is_auto_release_candidate: ${{ steps.parse_dependabot_pr_autorelease.outputs.is_interesting_package }}
-      semver_increment: ${{ steps.parse_dependabot_pr.outputs.semver_increment }}
+      semver_increment: ${{ steps.parse_dependabot_pr_automerge.outputs.semver_increment }}
     if: |
       (github.actor == 'dependabot[bot]' || github.actor == 'nektos/act') &&
       github.event_name == 'pull_request'
@@ -55,12 +55,12 @@ jobs:
       - name: Show PR Details
         run: |
           echo "<------------------------------------------------>"
-          echo "dependency_name : ${{needs.evaluate_dependabot_pr.outputs.dependency_name}}"
-          echo "semver_increment     : ${{needs.evaluate_dependabot_pr.outputs.semver_increment}}"
-          echo "auto_merge      : ${{needs.evaluate_dependabot_pr.outputs.is_auto_merge_candidate}}"
-          echo "auto_release    : ${{needs.evaluate_dependabot_pr.outputs.is_auto_release_candidate}}"
-          echo "from_version    : ${{needs.evaluate_dependabot_pr.outputs.version_from}}"
-          echo "to_version      : ${{needs.evaluate_dependabot_pr.outputs.version_to}}"
+          echo "dependency_name  : ${{needs.evaluate_dependabot_pr.outputs.dependency_name}}"
+          echo "semver_increment : ${{needs.evaluate_dependabot_pr.outputs.semver_increment}}"
+          echo "auto_merge       : ${{needs.evaluate_dependabot_pr.outputs.is_auto_merge_candidate}}"
+          echo "auto_release     : ${{needs.evaluate_dependabot_pr.outputs.is_auto_release_candidate}}"
+          echo "from_version     : ${{needs.evaluate_dependabot_pr.outputs.version_from}}"
+          echo "to_version       : ${{needs.evaluate_dependabot_pr.outputs.version_to}}"
           echo "<------------------------------------------------>"
         shell: bash
       - name: Generate token
