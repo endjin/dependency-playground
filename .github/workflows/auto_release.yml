@@ -129,10 +129,6 @@ jobs:
         app_id: ${{ secrets.ENDJIN_BOT_APP_ID }}
         private_key: ${{ secrets.ENDJIN_BOT_PRIVATE_KEY }}
 
-    - name: Display release_pending_pr_list
-      run: |
-        echo "release_pending_pr_list : ${{ needs.check_for_open_prs.outputs.pending_release_pr_list }}"
-
     # create the SemVer tag
     - uses: hole19/git-tag-action@master
       env:
@@ -145,7 +141,7 @@ jobs:
       with:
         github-token: '${{ steps.generate_token.outputs.token }}'
         script: |
-          core.info('input: ${{ needs.check_for_open_prs.outputs.pending_release_pr_list }}')
+          core.info('PRs to unlabel: ${{ needs.check_for_open_prs.outputs.pending_release_pr_list }}')
           const pr_list = JSON.parse('${{ needs.check_for_open_prs.outputs.pending_release_pr_list }}')
           core.info(`pr_list: ${pr_list}`)
           for (const i of pr_list) {
