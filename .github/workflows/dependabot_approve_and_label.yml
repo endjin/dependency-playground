@@ -14,9 +14,6 @@ jobs:
       is_auto_merge_candidate: ${{ steps.parse_dependabot_pr_automerge.outputs.is_interesting_package }}
       is_auto_release_candidate: ${{ steps.parse_dependabot_pr_autorelease.outputs.is_interesting_package }}
       semver_increment: ${{ steps.parse_dependabot_pr_automerge.outputs.semver_increment }}
-    if: |
-      (github.actor == 'dependabot[bot]' || github.actor == 'nektos/act') &&
-      github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v2
       - name: Read pr-autoflow configuration
@@ -48,8 +45,7 @@ jobs:
     needs: evaluate_dependabot_pr
     name: Approve
     if: |
-      (github.actor == 'dependabot[bot]' || github.actor == 'nektos/act') &&
-      github.event_name == 'pull_request'
+      (github.actor == 'dependabot[bot]' || github.actor == 'nektos/act')
     steps:
       - name: Show PR Details
         run: |
@@ -101,7 +97,7 @@ jobs:
     steps:
       - name: 'Label with "autosquash"'
         if: |
-          github.actor == 'dependabot[bot]' &&
+          (github.actor == 'dependabot[bot]' || github.actor == 'nektos/act') &&
           needs.evaluate_dependabot_pr.outputs.is_auto_merge_candidate == 'True' &&
           (needs.evaluate_dependabot_pr.outputs.semver_increment == 'minor' || needs.evaluate_dependabot_pr.outputs.semver_increment == 'patch')
         env: 
