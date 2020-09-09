@@ -80,15 +80,13 @@ jobs:
           (needs.evaluate_dependabot_pr.outputs.semver_increment == 'minor' || needs.evaluate_dependabot_pr.outputs.semver_increment == 'patch')
         uses: andrewmusgrave/automatic-pull-request-review@0.0.2
         with:
-          repo-token: '${{ steps.generate_token.outputs.token }}'
+          repo-token: '${{ needs.generate_token.outputs.token }}'
           event: APPROVE
           body: 'Thank you dependabot 🎊'
       - name: 'Update PR body'
         if: |
           needs.evaluate_dependabot_pr.outputs.is_auto_merge_candidate == 'True' &&
           (needs.evaluate_dependabot_pr.outputs.semver_increment == 'minor' || needs.evaluate_dependabot_pr.outputs.semver_increment == 'patch')
-        env: 
-          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
         uses: actions/github-script@v2
         with:
           github-token: '${{ needs.generate_token.outputs.token }}'
@@ -112,11 +110,9 @@ jobs:
           (github.actor == 'dependabot[bot]' || github.actor == 'nektos/act') &&
           needs.evaluate_dependabot_pr.outputs.is_auto_merge_candidate == 'True' &&
           (needs.evaluate_dependabot_pr.outputs.semver_increment == 'minor' || needs.evaluate_dependabot_pr.outputs.semver_increment == 'patch')
-        env: 
-          GH_TOKEN: ${{ needs.generate_token.outputs.token }}
         uses: actions/github-script@v2
         with:
-          github-token: '${{ steps.generate_token.outputs.token }}'
+          github-token: '${{ needs.generate_token.outputs.token }}'
           script: |
             await github.issues.addLabels({
               owner: context.payload.repository.owner.login,
