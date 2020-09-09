@@ -45,7 +45,8 @@ jobs:
     needs: evaluate_dependabot_pr
     name: Approve
     if: |
-      (github.actor == 'dependabot[bot]' || github.actor == 'nektos/act')
+      (github.actor == 'dependabot[bot]' || github.actor == 'nektos/act') &&
+      needs.evaluate_dependabot_pr.outputs.is_auto_merge_candidate == 'True'
     steps:
       - name: Show PR Details
         run: |
