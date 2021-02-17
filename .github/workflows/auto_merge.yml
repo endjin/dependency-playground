@@ -46,19 +46,19 @@ jobs:
             const pulls = await github.search.issuesAndPullRequests({
               q: 'is:pr is:closed label:autosquash',
             });
-            core.info(`pulls: ${pulls.data.items}`)
+            #core.info(`pulls: ${pulls.data.items}`)
             const repoUrl = `https://api.github.com/repos/${context.payload.repository.owner.login}/${context.payload.repository.name}`
             const prs_to_unlabel = pulls.data.items.
                                           filter(function (x) { return x.repository_url == repoUrl; }).
                                           map(p=>p.number);
             for (const i of prs_to_unlabel) {
               core.info(`Removing label 'autosquash' from issue #${i}`)
-              github.issues.removeLabel({
-                owner: context.payload.repository.owner.login,
-                repo: context.payload.repository.name,
-                issue_number: i,
-                name: 'autosquash'
-              });
+              # github.issues.removeLabel({
+              #   owner: context.payload.repository.owner.login,
+              #   repo: context.payload.repository.name,
+              #   issue_number: i,
+              #   name: 'autosquash'
+              # });
             }
       - uses: endjin/autosquash@v2.2
         with:
