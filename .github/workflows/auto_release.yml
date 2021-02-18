@@ -75,7 +75,7 @@ jobs:
             owner: context.payload.repository.owner.login,
             repo: context.payload.repository.name,
             state: 'open',
-            base: ${{ needs.lookup_default_branch.outputs.branch_name }}
+            base: '${{ needs.lookup_default_branch.outputs.branch_name }}'
           });
           return JSON.stringify(pulls.data.map(p=>p.title))
         result-encoding: string
