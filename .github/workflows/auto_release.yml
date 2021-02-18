@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       branch_name: ${{ steps.lookup_default_branch.outputs.result }}
+      head_commit: ${{ steps.lookup_default_branch_head.outputs.result }}
     steps:
     - name: Lookup default branch name
       id: lookup_default_branch
@@ -24,6 +25,23 @@ jobs:
     - name: Display default_branch_name
       run: |
         echo "default_branch_name : ${{ steps.lookup_default_branch.outputs.result }}"
+
+    - name: Lookup HEAD commit on default branch
+      id: lookup_default_branch_head
+      uses: actions/github-script@v2
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        result-encoding: string
+        script: |
+          const branch = await github.repos.getBranch({
+            owner: context.payload.repository.owner.login,
+            repo: context.payload.repository.name,
+            branch: '${{ steps.lookup_default_branch.outputs.result }}'
+          });
+          return branch.data.commit.sha
+    - name: Display default_branch_name_head
+      run: |
+        echo "default_branch_head_commit : ${{ steps.lookup_default_branch_head.outputs.result }}"
         
   check_for_norelease_label:
     runs-on: ubuntu-latest
@@ -146,11 +164,12 @@ jobs:
 
     - name: Install GitVersion
       run: |
-        dotnet tool install -g GitVersion.Tool --version 5.2.4
+        dotnet tool install -g GitVersion.Tool --version 5.6.6
         echo "/github/home/.dotnet/tools" >> $GITHUB_PATH
     - name: Run GitVersion
       id: run_gitversion
       run: |
+        pwsh -noprofile -c 'dotnet-gitversion /diag'
         pwsh -noprofile -c '(dotnet-gitversion | ConvertFrom-Json).psobject.properties | % { echo ("::set-output name={0}::{1}" -f $_.name, $_.value) }'
 
     - name: Generate token
@@ -161,10 +180,17 @@ jobs:
         private_key: ${{ secrets.ENDJIN_BOT_PRIVATE_KEY }}
 
     - name: Create SemVer tag
-      uses: hole19/git-tag-action@master
-      env:
-        TAG: ${{ steps.run_gitversion.outputs.MajorMinorPatch }}
-        GITHUB_TOKEN: '${{ steps.generate_token.outputs.token }}'
+      uses: actions/github-script@v2
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const uri_path = '/repos/' + context.payload.repository.owner.login + '/' + context.payload.repository.name + '/git/refs'
+          const tag = await github.request(('POST ' + uri_path), {
+            owner: context.payload.repository.owner.login,
+            repo: context.payload.repository.name,
+            ref: '${{ steps.run_gitversion.outputs.MajorMinorPatch }}',
+            sha: '${{ needs.lookup_default_branch.outputs.head_commit }}'
+          })
 
     - name: Remove 'release_pending' label from PRs
       id: remove_pending_release_labels
