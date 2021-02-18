@@ -188,7 +188,7 @@ jobs:
           const tag = await github.request(('POST ' + uri_path), {
             owner: context.payload.repository.owner.login,
             repo: context.payload.repository.name,
-            ref: '${{ steps.run_gitversion.outputs.MajorMinorPatch }}',
+            ref: 'refs/tags/${{ steps.run_gitversion.outputs.MajorMinorPatch }}',
             sha: '${{ needs.lookup_default_branch.outputs.head_commit }}'
           })
 
