@@ -140,7 +140,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         # ensure we are creating the release tag on the default branch
-        ref: needs.lookup_default_branch.outputs.branch_name
+        ref: ${{ needs.lookup_default_branch.outputs.branch_name }}
         fetch-depth: 0
 
     - name: Install GitVersion
