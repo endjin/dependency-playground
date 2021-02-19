@@ -38,7 +38,7 @@ jobs:
           # For PR-based events returns 'true' when the HEAD originates from a forked repo
           # We do this to avoid security issues
           script: |
-            return ( !github.event.pull_request ? false : (github.event.pull_request.head.repo.full_name !== github.repository) )
+            return ( !github.event.hasOwnProperty('pull_request') ? false : (github.event.pull_request.head.repo.full_name !== github.repository) )
 
   auto_merge:
     name: Auto-squash the PR
