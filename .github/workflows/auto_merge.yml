@@ -34,11 +34,11 @@ jobs:
         id: check_pr_source
         uses: actions/github-script@v2
         with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        # For PR-based events returns 'true' when the HEAD originates from a forked repo
-        # We do this to avoid security issues
-        script: |
-          return ( !github.event.pull_request.head.repo.full_name ? false : (github.event.pull_request.head.repo.full_name !== github.repository) )
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # For PR-based events returns 'true' when the HEAD originates from a forked repo
+          # We do this to avoid security issues
+          script: |
+            return ( !github.event.pull_request.head.repo.full_name ? false : (github.event.pull_request.head.repo.full_name !== github.repository) )
 
   auto_merge:
     name: Auto-squash the PR
