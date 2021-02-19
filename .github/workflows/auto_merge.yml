@@ -60,7 +60,7 @@ jobs:
     # Don't run when the triggering event originates from a forked repos
     needs: [debug,check_pr_from_fork]
     if: |
-      !(needs.check_pr_from_fork.outputs.is_forked_pr)
+      needs.check_pr_from_fork.outputs.is_forked_pr == false
     steps:
       - name: Generate token
         id: generate_token
