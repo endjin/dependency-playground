@@ -27,7 +27,7 @@ jobs:
             q: 'repo:' + repo + ' is:pr state:open author:app/dependabot',
           });
 
-          pulls.data.items.forEach(pull => {
+          for (const pull of pulls) {
             console.log('Reopening PR:' + pull.title)
             await github.issues.update({
               owner: context.payload.repository.owner.login,
@@ -35,4 +35,4 @@ jobs:
               issue_number: pull.number,
               body: '@dependabot reopen'
             })
-          })
+          }
