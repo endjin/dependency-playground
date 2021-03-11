@@ -33,6 +33,6 @@ jobs:
               owner: context.payload.repository.owner.login,
               repo: context.payload.repository.name,
               issue_number: pull.number,
-              body: '@dependabot reopen'
+              body: '@dependabot recreate'
             })
           }
