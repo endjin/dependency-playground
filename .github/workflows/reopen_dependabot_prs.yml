@@ -1,7 +1,7 @@
 name: reopen_dependabot_prs
 on:
   schedule:
-  - 0 0 7 ? * * * # Run every day at 7am (after dependabot has run at 5am)
+  - cron: '0 7 * * *' # Run every day at 7am (after dependabot has run at 5am)
   workflow_dispatch: {}
 
 jobs:
