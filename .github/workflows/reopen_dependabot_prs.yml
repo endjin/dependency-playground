@@ -27,7 +27,7 @@ jobs:
             q: 'repo:' + repo + ' is:pr state:open author:app/dependabot',
           });
 
-          for (const pull of pulls) {
+          for (const pull of pulls.data.items) {
             console.log('Reopening PR:' + pull.title)
             await github.issues.update({
               owner: context.payload.repository.owner.login,
