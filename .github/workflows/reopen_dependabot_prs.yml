@@ -1,0 +1,38 @@
+name: reopen_dependabot_prs
+on:
+  schedule:
+  - cron: '0 7 * * *' # Run every day at 7am (after dependabot has run at 5am)
+  workflow_dispatch: {}
+
+jobs:
+  reopen_dependabot_prs:
+    name: Reopen Dependabot PRs
+    runs-on: ubuntu-18.04
+    steps:   
+    - name: Generate token
+      id: generate_token
+      uses: tibdex/github-app-token@v1
+      with:
+        app_id: ${{ secrets.DEPENDJINBOT_APP_ID }}
+        private_key: ${{ secrets.DEPENDJINBOT_PRIVATE_KEY }}
+    - name: Reopen PRs
+      id: reopen_prs
+      uses: actions/github-script@v3
+      with:
+        github-token: '${{ steps.generate_token.outputs.token }}'
+        script: |
+          const repo = context.payload.repository.owner.login + '/' + context.payload.repository.name
+
+          const pulls = await github.search.issuesAndPullRequests({
+            q: 'repo:' + repo + ' is:pr state:open author:app/dependabot',
+          });
+
+          for (const pull of pulls.data.items) {
+            console.log('Reopening PR:' + pull.title)
+            await github.issues.createComment({
+              owner: context.payload.repository.owner.login,
+              repo: context.payload.repository.name,
+              issue_number: pull.number,
+              body: '@dependabot recreate'
+            })
+          }
