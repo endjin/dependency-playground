@@ -28,10 +28,10 @@ jobs:
     - name: test powershell output stream with github workflow commands
       id: stdout
       run: |
-        Write-Information "`n::error::a simple error message [STDOUT-STREAM]"
-        Write-Information ("`n::error file={0},line={1},col={2}::{3}" -f "foo.ps1", 10, 40, "A fake error message [STDOUT-STREAM]")
-        Write-Information "`n::warning::a warning message [STDOUT-STREAM]"
-        Write-Information ("`n::set-output name={0}::{1}" -f "TESTOUTPUT", "Foo")
+        Write-Output "`n::error::a simple error message [STDOUT-STREAM]"
+        Write-Output ("`n::error file={0},line={1},col={2}::{3}" -f "foo.ps1", 10, 40, "A fake error message [STDOUT-STREAM]")
+        Write-Output "`n::warning::a warning message [STDOUT-STREAM]"
+        Write-Output ("`n::set-output name={0}::{1}" -f "TESTOUTPUT", "Foo")
       shell: pwsh
 
     - name: Display step outputs
