@@ -1,0 +1,41 @@
+name: ps_logging_test
+on: 
+  workflow_dispatch:
+
+jobs:
+  tag_for_release:
+    runs-on: ubuntu-latest
+    steps:
+    - name: test powershell info stream with github workflow commands
+      id: info
+      run: |
+        $InformationPreference = "Continue"
+        Write-Information "`n::error::a simple error message [INFO-STREAM]"
+        Write-Information ("`n::error file={0},line={1},col={2}::{3}" -f "foo.ps1", 10, 40, "A fake error message [INFO-STREAM]")
+        Write-Information "`n::warning::a warning message [INFO-STREAM]"
+        Write-Information ("`n::set-output name={0}::{1}" -f "TESTINFO", "Foo")
+      shell: pwsh
+
+    - name: test powershell host with github workflow commands
+      id: host
+      run: |
+        Write-Host "`n::error::a simple error message [HOST]"
+        Write-Host ("`n::error file={0},line={1},col={2}::{3}" -f "foo.ps1", 10, 40, "A fake error message [HOST]")
+        Write-Host "`n::warning::a warning message [HOST]"
+        Write-Host ("`n::set-output name={0}::{1}" -f "TESTHOST", "Foo")
+      shell: pwsh
+
+    - name: test powershell output stream with github workflow commands
+      id: stdout
+      run: |
+        Write-Information "`n::error::a simple error message [STDOUT-STREAM]"
+        Write-Information ("`n::error file={0},line={1},col={2}::{3}" -f "foo.ps1", 10, 40, "A fake error message [STDOUT-STREAM]")
+        Write-Information "`n::warning::a warning message [STDOUT-STREAM]"
+        Write-Information ("`n::set-output name={0}::{1}" -f "TESTOUTPUT", "Foo")
+      shell: pwsh
+
+    - name: Display step outputs
+      run : |
+        echo "TESTINFO : ${{ steps.info.outputs.TESTINFO }}"
+        echo "TESTHOST : ${{ steps.host.outputs.TESTHOST }}"
+        echo "TESTOUTPUT : ${{ steps.stdout.outputs.TESTOUTPUT }}"
