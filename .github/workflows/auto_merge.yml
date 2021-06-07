@@ -38,14 +38,17 @@ jobs:
           # For PR-based events returns 'true' when the HEAD originates from a forked repo
           # We do this to avoid security issues
           script: |
-            return ( (github.event.pull_request == undefined) ? false : (github.event.pull_request.head.repo.full_name !== github.repository) )
+            return ( !(context.payload.pull_request) ? false : (
+              context.payload.pull_request.head.repo.full_name !== context.payload.pull_request.base.repo.full_name)
+            );
 
   auto_merge:
     name: Auto-squash the PR
     runs-on: ubuntu-18.04
     # Don't run when the triggering event originates from a forked repos
     needs: check_pr_from_fork
-    if: (!needs.check_pr_from_fork.outputs.is_forked_pr)
+    if: |
+      needs.check_pr_from_fork.outputs.is_forked_pr == 'false'
     steps:
       - name: Generate token
         id: generate_token
