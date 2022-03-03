@@ -1,6 +1,6 @@
 name: approve_and_label
 on: 
-  pull_request:
+  pull_request_target:
     types: [opened, reopened]
     
 jobs:
