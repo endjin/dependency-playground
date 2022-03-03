@@ -22,6 +22,10 @@ on:
   # Success statuses can unblock the corresponding
   # pull requests and make them mergeable.
   status: {}
+  workflow_run:
+    workflows: [approve_and_label]
+    types:
+    - completed
 
 permissions:
   contents: write
