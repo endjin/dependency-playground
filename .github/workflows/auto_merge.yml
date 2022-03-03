@@ -23,22 +23,12 @@ on:
   # pull requests and make them mergeable.
   status: {}
 
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
 jobs:
-  check_pr_from_fork:
-    name: Check PR from fork
-    runs-on: ubuntu-18.04
-    outputs: 
-      is_forked_pr: ${{ steps.check_pr_source.outputs.result }}
-    steps:
-      - name: Check PR source
-        id: check_pr_source
-        uses: actions/github-script@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          # For PR-based events returns 'true' when the HEAD originates from a forked repo
-          # We do this to avoid security issues
-          script: |
-            return ( (github.event.pull_request == undefined) ? false : (github.event.pull_request.head.repo.full_name !== github.repository) )
 
   auto_merge:
     name: Auto-squash the PR
@@ -47,18 +37,12 @@ jobs:
     needs: check_pr_from_fork
     if: (!needs.check_pr_from_fork.outputs.is_forked_pr)
     steps:
-      - name: Generate token
-        id: generate_token
-        uses: tibdex/github-app-token@v1
-        with:
-          app_id: ${{ secrets.ENDJIN_BOT_APP_ID }}
-          private_key: ${{ secrets.ENDJIN_BOT_PRIVATE_KEY }}
       # This may not be strictly required, but should keep unmerged, closed PRs cleaner
       - name: Remove 'autosquash' label from closed PRs
         id: remove_autosquash_label_from_closed_prs
         uses: actions/github-script@v2
         with:
-          github-token: '${{ steps.generate_token.outputs.token }}'
+          github-token: '${{ secrets.GITHUB_TOKEN }}'
           script: |
             const pulls = await github.search.issuesAndPullRequests({
               q: 'is:pr is:closed label:autosquash',
@@ -79,4 +63,4 @@ jobs:
             }
       - uses: endjin/autosquash@v2.2
         with:
-          github_token: '${{ steps.generate_token.outputs.token }}'
+          github_token: '${{ secrets.GITHUB_TOKEN }}'
