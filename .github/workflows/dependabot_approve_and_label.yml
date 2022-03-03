@@ -1,7 +1,11 @@
 name: approve_and_label
 on: 
-  pull_request_target:
+  pull_request:
     types: [opened, reopened]
+    
+permissions:
+  issues: write
+  pull-requests: write
     
 jobs:
   evaluate_dependabot_pr:
@@ -62,19 +66,13 @@ jobs:
           echo "to_version       : ${{needs.evaluate_dependabot_pr.outputs.version_to}}"
           echo "<------------------------------------------------>"
         shell: bash
-      - name: Generate token
-        id: generate_token
-        uses: tibdex/github-app-token@v1
-        with:
-          app_id: ${{ secrets.ENDJIN_BOT_APP_ID }}
-          private_key: ${{ secrets.ENDJIN_BOT_PRIVATE_KEY }}
       - name: Approve pull request
         if: |
           needs.evaluate_dependabot_pr.outputs.is_auto_merge_candidate == 'True' &&
           (needs.evaluate_dependabot_pr.outputs.semver_increment == 'minor' || needs.evaluate_dependabot_pr.outputs.semver_increment == 'patch')
         uses: andrewmusgrave/automatic-pull-request-review@0.0.2
         with:
-          repo-token: '${{ steps.generate_token.outputs.token }}'
+          repo-token: '${{ secrets.GITHUB_TOKEN }}'
           event: APPROVE
           body: 'Thank you dependabot 🎊'
       - name: 'Update PR body'
