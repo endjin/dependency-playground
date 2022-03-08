@@ -63,6 +63,6 @@ jobs:
                 name: 'autosquash'
               });
             }
-      - uses: endjin/autosquash@v2.2
+      - uses: endjin/autosquash@v2.3
         with:
           github_token: '${{ secrets.GITHUB_TOKEN }}'
