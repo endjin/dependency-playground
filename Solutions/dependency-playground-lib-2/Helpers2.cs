@@ -2,7 +2,7 @@
 
 namespace dependency_playground.lib
 {
-    public static class Helpers
+    public static class Helpers2
     {
         public static void Message()
         {
