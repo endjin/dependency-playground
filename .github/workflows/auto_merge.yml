@@ -63,9 +63,6 @@ jobs:
                 name: 'autosquash'
               });
             }
-      - run: gh api https://api.github.com/repos/endjin/dependency-playground/pulls/167
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: endjin/autosquash@v2.4
         with:
           github_token: '${{ secrets.GITHUB_TOKEN }}'
