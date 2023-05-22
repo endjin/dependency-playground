@@ -1,5 +1,5 @@
 $here = Split-Path -Parent $PSCommandPath
-$version = "1.1.9"
+$version = "1.1.34"
 
 dotnet pack -p:Version=$version
 $package = Get-ChildItem $here/bin/Debug/dependency-playground-lib*.nupkg | Select-Object -Last 1
