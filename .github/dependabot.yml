@@ -9,16 +9,16 @@ updates:
     microsoft-identity:
       patterns:
       - Microsoft.Identity.*
-    menes:
-      patterns:
-      - Menes.*
     microsoft-extensions:
       patterns:
       - Microsoft.Extensions.*
-    marain:
-      patterns:
-      - Marain.*
     corvus:
       patterns:
       - Corvus.*
+    marain:
+      patterns:
+      - Marain.*
+    menes:
+      patterns:
+      - Menes.*
 
