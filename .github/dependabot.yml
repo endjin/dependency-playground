@@ -5,4 +5,20 @@ updates:
   schedule:
     interval: daily
   open-pull-requests-limit: 10
+  groups:
+    microsoft-identity:
+      patterns:
+      - Microsoft.Identity.*
+    menes:
+      patterns:
+      - Menes.*
+    microsoft-extensions:
+      patterns:
+      - Microsoft.Extensions.*
+    marain:
+      patterns:
+      - Marain.*
+    corvus:
+      patterns:
+      - Corvus.*
 
