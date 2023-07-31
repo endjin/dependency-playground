@@ -9,8 +9,8 @@
   <ItemGroup>
     <PackageReference Include="dependency-playground-lib" Version="1.1.35" />
     <PackageReference Include="dependency-playground-lib-2" Version="3.0.6" />
-    <PackageReference Include="Corvus.Identity.Abstractions" Version="3.2.1" />
-    <PackageReference Include="Corvus.Storage.Common" Version="1.5.2" />
+    <PackageReference Include="Corvus.Identity.Abstractions" Version="3.3.0" />
+    <PackageReference Include="Corvus.Storage.Common" Version="1.6.0" />
   </ItemGroup>
 
 </Project>
