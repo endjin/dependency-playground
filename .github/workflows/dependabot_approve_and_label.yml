@@ -82,6 +82,8 @@ jobs:
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea   # v7.0.1
         with:
           github-token: '${{ secrets.GITHUB_TOKEN }}'
+          retries: 6  # final retry should wait 64 seconds
+          retry-exempt-status-codes: 400,401,404,422    # GH will raise rate limits with 403 & 429 status codes
           script: |
             await github.rest.pulls.update({
               owner: context.payload.repository.owner.login,
@@ -100,6 +102,8 @@ jobs:
       uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea   # v7.0.1
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
+        retries: 6  # final retry should wait 64 seconds
+        retry-exempt-status-codes: 400,401,404,422    # GH will raise rate limits with 403 & 429 status codes
         script: |
             const labels = await github.rest.issues.listLabelsOnIssue({
               owner: context.payload.repository.owner.login,
@@ -153,6 +157,8 @@ jobs:
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea   # v7.0.1
         with:
           github-token: '${{ secrets.GITHUB_TOKEN }}'
+          retries: 6  # final retry should wait 64 seconds
+          retry-exempt-status-codes: 400,401,404,422    # GH will raise rate limits with 403 & 429 status codes
           script: |
             await github.rest.issues.addLabels({
               owner: context.payload.repository.owner.login,
